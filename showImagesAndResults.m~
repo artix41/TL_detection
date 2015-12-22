@@ -30,6 +30,7 @@ function y = showImagesAndResults(start,stop, directory)
         % Plot the extracted traffic light
         subplot(2,2,4);
         detection = extractDetection(rgb_image, coord_maxima, 11, 27);
+        size(detection)
         imagesc(detection);
         axis equal tight;
         %set(gcf,'BoxStyle','full','Box','on')
