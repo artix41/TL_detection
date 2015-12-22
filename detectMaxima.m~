@@ -1,5 +1,6 @@
 function list_argmax=detectMaxima(F, n_maxima)
     modified_F = F;
+    imagesc(image);
     list_argmax = zeros(n_maxima,2);
     for i = 1:n_maxima
         list_argmax(i,:) = argmax(modified_F);
