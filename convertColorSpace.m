@@ -8,8 +8,7 @@ function [lab_image, F] = convertColorSpace(image)
     
     % Getting F = L*(a+b)
     F = lab_image_normalized(:,:,1).*(lab_image_normalized(:,:,2)+lab_image_normalized(:,:,3));
-    display(size(F))
-    imagesc(F);
+    %imagesc(F);
     
 % Question 3 : 3 dimensions dont les valeurs sont comprises entre 0 et
 % 255. Les deux premières dimensions sont les coordonnées de l'image et
