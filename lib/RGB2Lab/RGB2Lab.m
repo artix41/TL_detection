@@ -5,7 +5,7 @@ function [L,a,b] = RGB2Lab(R,G,B)
 % function [L, a, b] = RGB2Lab(I)
 % function I = RGB2Lab(...)
 %
-% RGB2Lab takes red, green, and blue matrices, or a single M x N x 3 image, 
+% RGB2Lab takes red, green, and blue matrices, or a single M x N x 3 image,
 % and returns an image in the CIELAB color space.  RGB values can be
 % either between 0 and 1 or between 0 and 255.  Values for L are in the
 % range [0,100] while a and b are roughly in the range [-110,110].  The
@@ -13,7 +13,7 @@ function [L,a,b] = RGB2Lab(R,G,B)
 %
 % This transform is based on ITU-R Recommendation BT.709 using the D65
 % white point reference. The error in transforming RGB -> Lab -> RGB is
-% approximately 10^-5.  
+% approximately 10^-5.
 %
 % See also LAB2RGB.
 
@@ -55,7 +55,7 @@ XT = X > T;
 YT = Y > T;
 ZT = Z > T;
 
-Y3 = Y.^(1/3); 
+Y3 = Y.^(1/3);
 
 fX = XT .* X.^(1/3) + (~XT) .* (7.787 .* X + 16/116);
 fY = YT .* Y3 + (~YT) .* (7.787 .* Y + 16/116);

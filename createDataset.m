@@ -2,7 +2,7 @@ function y = createDataset(start, stop, directory)
     % Create a dataset of images in jpg format
     % corresponding to rectangles around the maximum of the pictures
     % Goal : produce a dataset of negative class images (false traffic lights)
-    
+
     iImage = start;
     continuer = 1;
     count = 5465; % Indice of the last saved image

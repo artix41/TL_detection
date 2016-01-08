@@ -1,5 +1,5 @@
 function [arg] = argmax(matrix)
-    cur_max = 0;
+    cur_max = -Inf;
     arg = [0 0];
     for i = 1:size(matrix,1)
         for j = 1:size(matrix,2)

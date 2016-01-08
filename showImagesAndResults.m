@@ -1,9 +1,8 @@
 function y = showImagesAndResults(start,stop, directory)
-    subplot(2,2,1);
+    subplot(3,5,1);
     hold off;
     iImage = start;
     continuer = 1;
-    count = 5465; % Indice of the last saved image
     while continuer && iImage < stop
         display(iImage);
         rgb_image = imread(sprintf('%s/frame_%06d.jpg', directory, iImage));
@@ -12,27 +11,46 @@ function y = showImagesAndResults(start,stop, directory)
         [lab_image, F] = convertColorSpace(rgb_image);
 
         % Plot F and the original image
-        subplot(2,2,1);
+        subplot(3,5,[1,2]);
         imagesc(rgb_image);
-        subplot(2,2,2);
+        set(gca,'xtick',[],'ytick',[]);
+        subplot(3,5,[4,5]);
         imagesc(F)
-        colorbar;
+        set(gca,'xtick',[],'ytick',[]);
 
         % Plot rectangle
-        coord_maxima = detectMaxima(F, 5);
-        display(coord_maxima);
-
-        % Plot the convolute image
-        subplot(2,2,3);
-        convImage = convolution(mexican_hat(20, 4), F);
-        imagesc(convImage);
-        colorbar;
+        nbrMaxima = 5;
+        coord_maxima = detectMaxima(F, nbrMaxima);
 
         % Plot the extracted traffic light
-        hax = subplot(2,2,4);
-        detection = extractDetection(rgb_image, coord_maxima(1,:), 10, 26);
-        imagesc(detection);
-        axis equal tight;
+        detection = uint8(zeros(nbrMaxima, 27, 11, 3));
+        for i = 1:nbrMaxima
+            subplot(3,5,5+i);
+            detection(i,:,:,:) = extractDetection(rgb_image, coord_maxima(i,:), 10, 26);
+            imagesc(reshape(detection(i,:,:,:), [27,11,3]));
+            set(gca,'xtick',[],'ytick',[]);
+            axis equal tight;
+        end
+
+        % Detect if it is a red light with neural networks
+        iRedLight = -1;
+        count = 0;
+        for i = 1:nbrMaxima
+            if isRedLight(reshape(detection(i,:,:,:), [27,11,3]), '/home/artix41/Logiciels/caffe')
+                iRedLight = i;
+                count = count + 1;
+            end
+        end
+        count
+        subplot(3,5,13)
+        if iRedLight ~= -1
+            imagesc(imread('images/stop.png'));
+            imwrite(reshape(detection(iRedLight,:,:,:), [27,11,3]),sprintf('~/image.jpg', count));
+        else
+            imagesc(imread('images/continue.jpg'));
+        end
+        title(sprintf('%d', iRedLight));
+        set(gca,'xtick',[],'ytick',[]);
 
         % Keyboard detection
         waitforbuttonpress;
